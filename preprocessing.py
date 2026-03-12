@@ -39,7 +39,7 @@ def preprocess_data(df, is_train=True):
             df[col] = le.transform(df[col].astype(str))
     
     # Select features
-    feature_columns = categorical_features + numerical_features
+    feature_columns = [col for col in categorical_features + numerical_features if col in df.columns]
     X = df[feature_columns]
 
     if is_train:
