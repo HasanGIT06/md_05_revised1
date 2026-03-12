@@ -40,6 +40,12 @@ def main():
 def make_prediction(features):
     features = feature_engineering(features)
     X = preprocess_data(features, is_train=False)
+    model_features = [
+        'HomePlanet','CryoSleep','Destination','VIP',
+        'Age','RoomService','FoodCourt','ShoppingMall',
+        'Spa','VRDeck','Group_size','Family_size'
+    ]
+    X = X[model_features]
     pred = model.predict(X)
     return pred[0]
 
