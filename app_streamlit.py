@@ -41,7 +41,7 @@ def make_prediction(features):
     features = feature_engineering(features)
     X = preprocess_data(features, is_train=False)
     pred = model.predict(X)
-    return bool(pred[0])
+    return pred[0]
 
 if __name__ == "__main__":
     main()

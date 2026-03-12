@@ -24,22 +24,16 @@ def preprocess_data(df, is_train=True):
             df[col] = df[col].fillna(df[col].median())
     
     # Encode categorical features
-    if is_train:
-        label_encoders = {}
-        for col in categorical_features:
-            le = LabelEncoder()
-            df[col] = le.fit_transform(df[col].astype(str))
-            label_encoders[col] = le
-        os.makedirs("artifacts", exist_ok=True)
-        joblib.dump(label_encoders, "artifacts/preprocessor.pkl")
-    else:
-        label_encoders = joblib.load("artifacts/preprocessor.pkl")
-        for col in categorical_features:
-            le = label_encoders[col]
-            df[col] = le.transform(df[col].astype(str))
+    label_encoders = {}
+    for col in categorical_features:
+        le = LabelEncoder()
+        df[col] = le.fit_transform(df[col].astype(str))
+        label_encoders[col] = le
+    os.makedirs("artifacts", exist_ok=True)
+    joblib.dump(label_encoders, "artifacts/preprocessor.pkl")
     
     # Select features
-    feature_columns = [col for col in categorical_features + numerical_features if col in df.columns]
+    feature_columns = categorical_features + numerical_features
     X = df[feature_columns]
 
     if is_train:
